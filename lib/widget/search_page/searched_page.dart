@@ -1,16 +1,16 @@
+import 'package:code_check/router.dart';
 import 'package:code_check/service/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 
-class ListPage extends ConsumerWidget {
-  const ListPage({super.key});
+class SearchedPage extends ConsumerWidget {
+  const SearchedPage({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final asyncValue = ref.watch(searchedProvider);
-    return Scaffold(
-      appBar: AppBar(),
-      body: asyncValue.when(
+    return asyncValue.when(
         data: (results) {
           return ListView.builder(
             itemCount: results.length,
@@ -18,16 +18,13 @@ class ListPage extends ConsumerWidget {
               final result = results[index];
               return ListTile(
                 title: Text(result),
-                onTap: () {
-                  // Navigate to detail page
-                },
+                onTap: () => context.push(RoutePathName.detail, extra: result),
               );
             },
           );
         },
         loading: () => const Center(child: CircularProgressIndicator()),
         error: (error, stack) => Center(child: Text('Error: $error')),
-      ),
     );
   }
 }

@@ -1,4 +1,4 @@
-import 'package:code_check/page/pages.dart';
+import 'package:code_check/widget/widget.dart';
 import 'package:go_router/go_router.dart';
 
 final router = GoRouter(
@@ -18,9 +18,9 @@ final router = GoRouter(
     ),
 
     GoRoute(
-      path: RoutePathName.list,
-      name: RoutePathName.listName,
-      builder: (context, state) => const ListPage(),
+      path: RoutePathName.search,
+      name: RoutePathName.searchName,
+      builder: (context, state) => const SearchPage(),
     ),
   ],
 );
@@ -30,9 +30,9 @@ class RoutePathName {
 
   static const String home = '/';
   static const String detail = '/detail';
-  static const String list = '/list';
+  static const String search = '/search';
 
   static const String homeName = 'home';
   static const String detailName = 'detail';
-  static const String listName = 'list';
+  static const String searchName = 'search';
 }
