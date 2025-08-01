@@ -1,5 +1,3 @@
-import 'dart:isolate';
-
 import 'package:code_check/provider/providers.dart';
 import 'package:code_check/widget/widget.dart';
 import 'package:flutter/material.dart';

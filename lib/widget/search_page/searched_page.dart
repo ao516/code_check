@@ -21,7 +21,7 @@ class SearchedPage extends ConsumerWidget {
               final result = results[index];
               return ListTile(
                 title: Text(result.name),
-                onTap: () => context.push(RoutePathName.detail, extra: result.id),
+                onTap: () => DetailRoute(id: result.id).push(context),
               );
             },
           );

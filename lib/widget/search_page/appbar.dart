@@ -17,6 +17,7 @@ class _AppBarForSearchPageState extends ConsumerState<AppBarForSearchPage> {
       title: TextField(
         autofocus: true,
         onChanged: (value) => ref.read(keywordProvider.notifier).state = value,
+        onTapOutside: (event) => ref.read(isEditingProvider.notifier).state = false,
         onSubmitted: (value) => value.isNotEmpty ? ref.read(isEditingProvider.notifier).state = false : null,
         onTap: () => ref.read(isEditingProvider.notifier).state = true,
       ),

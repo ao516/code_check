@@ -13,7 +13,7 @@ class HomePage extends StatelessWidget {
         child: Text('Home Page'),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: ()=>context.push(RoutePathName.search),
+        onPressed: ()=>const SearchRoute().go(context),
         child: const Icon(Icons.search),
       ),
     );

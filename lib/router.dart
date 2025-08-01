@@ -1,38 +1,48 @@
 import 'package:code_check/widget/widget.dart';
+import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
+part 'router.g.dart';
+
 final router = GoRouter(
-  initialLocation: RoutePathName.home,
-
-  routes: [
-    GoRoute(
-      path: RoutePathName.home,
-      name: RoutePathName.homeName,
-      builder: (context, state) => const HomePage(),
-    ),
-
-    GoRoute(
-      path: RoutePathName.detail,
-      name: RoutePathName.detailName,
-      builder: (context, state) => DetailPage(extra:  state.extra as int),
-    ),
-
-    GoRoute(
-      path: RoutePathName.search,
-      name: RoutePathName.searchName,
-      builder: (context, state) => const SearchPage(),
-    ),
-  ],
+  routes: $appRoutes,
+  initialLocation: const HomeRoute().location,
+  errorBuilder: (context, state) {
+    return Scaffold(
+      appBar: AppBar(title: const Text('Error')),
+      body: Center(child: Text('Error: ${state.error}')),
+    );
+  },
 );
 
-class RoutePathName {
-  RoutePathName._();
+@TypedGoRoute<HomeRoute>(
+  path: '/',
+  routes: [
+    TypedGoRoute<DetailRoute>(path: 'detail/:id'),
+    TypedGoRoute<SearchRoute>(path: 'search'),
+  ]
+)
 
-  static const String home = '/';
-  static const String detail = '/detail';
-  static const String search = '/search';
+class HomeRoute extends GoRouteData with _$HomeRoute {
+  const HomeRoute();
 
-  static const String homeName = 'home';
-  static const String detailName = 'detail';
-  static const String searchName = 'search';
+  @override
+  Widget build(BuildContext context, GoRouterState state) => const HomePage();
+}
+
+class DetailRoute extends GoRouteData with _$DetailRoute {
+  const DetailRoute({required this.id});
+  final int id;
+
+  @override
+  Widget build(BuildContext context, GoRouterState state) {
+    return DetailPage(id: id);
+  }
+}
+
+class SearchRoute extends GoRouteData with _$SearchRoute {
+  const SearchRoute();
+
+  @override
+  Widget build(BuildContext context, GoRouterState state) => const SearchPage();
 }
