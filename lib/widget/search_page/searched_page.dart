@@ -1,3 +1,5 @@
+import 'package:code_check/model/models.dart';
+import 'package:code_check/provider/providers.dart';
 import 'package:code_check/router.dart';
 import 'package:code_check/service/dio.dart';
 import 'package:flutter/material.dart';
@@ -9,7 +11,8 @@ class SearchedPage extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final asyncValue = ref.watch(searchedProvider);
+    final keyWord = ref.watch(keywordProvider);
+    final asyncValue = ref.watch(searchedProvider(keyWord));
     return asyncValue.when(
         data: (results) {
           return ListView.builder(
@@ -17,8 +20,8 @@ class SearchedPage extends ConsumerWidget {
             itemBuilder: (context, index) {
               final result = results[index];
               return ListTile(
-                title: Text(result),
-                onTap: () => context.push(RoutePathName.detail, extra: result),
+                title: Text(result.name),
+                onTap: () => context.push(RoutePathName.detail, extra: result.id),
               );
             },
           );
@@ -29,10 +32,13 @@ class SearchedPage extends ConsumerWidget {
   }
 }
 
-final searchedProvider = FutureProvider<List<String>>((ref) async {
+final searchedProvider = FutureProvider.family<List<Item>, String>((ref, keyword) async {
   final response = await dio.get(
-    'https://api.github.com/search/repositories?q=flutter',
+    'https://api.github.com/search/repositories?q=$keyword',
   );
   debugPrint('SearchedProvider: ${response.data}');
-  return (response.data['items'] as List).map((e) => e['name'] as String).toList();
+  return (response.data['items'] as List).map((e) => Item(
+    id: e['id'] as int,
+    name: e['name'] as String,
+  )).toList();
 });

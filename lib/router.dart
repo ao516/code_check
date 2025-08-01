@@ -14,7 +14,7 @@ final router = GoRouter(
     GoRoute(
       path: RoutePathName.detail,
       name: RoutePathName.detailName,
-      builder: (context, state) => const DetailPage(),
+      builder: (context, state) => DetailPage(extra:  state.extra as int),
     ),
 
     GoRoute(

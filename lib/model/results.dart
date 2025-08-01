@@ -7,7 +7,7 @@ part 'results.freezed.dart';
 
 part 'results.g.dart';
 
-//検索結果のアイテムをタップしたら、該当リポジトリの詳細（リポジトリ名、オーナーアイコン、プロジェクト言語、Star 数、Watcher 数、Fork 数、Issue 数）を表示する
+//該当リポジトリの詳細（リポジトリ名、オーナーアイコン、プロジェクト言語、Star 数、Watcher 数、Fork 数、Issue 数）を表示する
 @freezed
 abstract class Results with _$Results {
   const factory Results({
@@ -29,3 +29,11 @@ final searchedProvider = FutureProvider<List<Results>>((ref) async {
   debugPrint('SearchedProvider: ${response.data}');
   return response.data['items'].map((e) => e['name']).toList();
 });
+
+class Item {
+  final int id;
+  final String name;
+  final bool isRead; //TODO: 未読・既読の処理
+
+  Item({required this.id, required this.name, this.isRead = false});
+}
