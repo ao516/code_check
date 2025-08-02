@@ -21,7 +21,7 @@ class SearchedPage extends ConsumerWidget {
               final result = results[index];
               return ListTile(
                 title: Text(result.name),
-                onTap: () => DetailRoute(id: result.id).push(context),
+                onTap: () => DetailRoute(path: result.path).push(context),
               );
             },
           );
@@ -38,7 +38,7 @@ final searchedProvider = FutureProvider.family<List<Item>, String>((ref, keyword
   );
   debugPrint('SearchedProvider: ${response.data}');
   return (response.data['items'] as List).map((e) => Item(
-    id: e['id'] as int,
+    path: e['full_name'] as String,
     name: e['name'] as String,
   )).toList();
 });

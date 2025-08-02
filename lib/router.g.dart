@@ -13,7 +13,7 @@ RouteBase get $homeRoute => GoRouteData.$route(
 
   factory: _$HomeRoute._fromState,
   routes: [
-    GoRouteData.$route(path: 'detail/:id', factory: _$DetailRoute._fromState),
+    GoRouteData.$route(path: 'detail/:path', factory: _$DetailRoute._fromState),
     GoRouteData.$route(path: 'search', factory: _$SearchRoute._fromState),
   ],
 );
@@ -40,14 +40,13 @@ mixin _$HomeRoute on GoRouteData {
 
 mixin _$DetailRoute on GoRouteData {
   static DetailRoute _fromState(GoRouterState state) =>
-      DetailRoute(id: int.parse(state.pathParameters['id']!)!);
+      DetailRoute(path: state.pathParameters['path']!);
 
   DetailRoute get _self => this as DetailRoute;
 
   @override
-  String get location => GoRouteData.$location(
-    '/detail/${Uri.encodeComponent(_self.id.toString())}',
-  );
+  String get location =>
+      GoRouteData.$location('/detail/${Uri.encodeComponent(_self.path)}');
 
   @override
   void go(BuildContext context) => context.go(location);

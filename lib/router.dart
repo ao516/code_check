@@ -18,7 +18,7 @@ final router = GoRouter(
 @TypedGoRoute<HomeRoute>(
   path: '/',
   routes: [
-    TypedGoRoute<DetailRoute>(path: 'detail/:id'),
+    TypedGoRoute<DetailRoute>(path: 'detail/:path'),
     TypedGoRoute<SearchRoute>(path: 'search'),
   ]
 )
@@ -31,12 +31,12 @@ class HomeRoute extends GoRouteData with _$HomeRoute {
 }
 
 class DetailRoute extends GoRouteData with _$DetailRoute {
-  const DetailRoute({required this.id});
-  final int id;
+  const DetailRoute({required this.path});
+  final String path;
 
   @override
   Widget build(BuildContext context, GoRouterState state) {
-    return DetailPage(id: id);
+    return DetailPage(path: path);
   }
 }
 
