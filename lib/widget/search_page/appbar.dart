@@ -18,6 +18,10 @@ class _AppBarForSearchPageState extends ConsumerState<AppBarForSearchPage> {
         autofocus: true,
         onChanged: (value) => ref.read(keywordProvider.notifier).state = value,
         onTapOutside: (event) => ref.read(isEditingProvider.notifier).state = false,
+        decoration: InputDecoration(
+          hintText: 'キーワードを入力',
+          border: InputBorder.none,
+        ),
         onSubmitted: (value) => value.isNotEmpty ? ref.read(isEditingProvider.notifier).state = false : null,
         onTap: () => ref.read(isEditingProvider.notifier).state = true,
       ),
