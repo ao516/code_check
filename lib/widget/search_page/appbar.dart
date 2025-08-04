@@ -25,6 +25,7 @@ class _AppBarForSearchPageState extends ConsumerState<AppBarForSearchPage> {
         },
       ),
       title: TextField(
+        controller: TextEditingController(text: ref.read(keywordProvider)),
         autofocus: true,
         onChanged: (value) => ref.read(keywordProvider.notifier).state = value,
         decoration: InputDecoration(
