@@ -27,8 +27,6 @@ class _AppBarForSearchPageState extends ConsumerState<AppBarForSearchPage> {
       title: TextField(
         autofocus: true,
         onChanged: (value) => ref.read(keywordProvider.notifier).state = value,
-        onTapOutside: (event) =>
-            ref.read(isEditingProvider.notifier).state = false,
         decoration: InputDecoration(
           hintText: 'キーワードを入力',
           border: InputBorder.none,
