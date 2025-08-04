@@ -30,14 +30,10 @@ String _ownerFromJson(Map<String, dynamic> owner) {
 
 final detailProvider = FutureProvider.family<Detail, String>((ref, path) async {
   final response = await dio.get('https://api.github.com/repos/${path}');
+  debugPrint('Detail API response: ${response.data}');
   final languageResponse = await dio.get(
     'https://api.github.com/repos/${path}/languages',
   );
-
-  debugPrint(
-    'Type of languageResponse.data: ${languageResponse.data.runtimeType}',
-  );
-  debugPrint('Content of languageResponse.data: ${languageResponse.data}');
 
   final List<String> languageList = languageResponse.data.keys
       .whereType<String>().toList();

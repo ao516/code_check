@@ -8,6 +8,7 @@ class SearchPage extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    // キーワードの編集状態を監視し、編集中はキーワード入力画面、そうでない場合は検索結果画面を表示
     final isEditing = ref.watch(isEditingProvider);
     return Scaffold(
       appBar: AppBarForSearchPage(),
