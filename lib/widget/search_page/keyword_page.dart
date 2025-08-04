@@ -1,4 +1,5 @@
 import 'package:code_check/provider/keyword.dart';
+import 'package:code_check/service/history.dart';
 import 'package:code_check/service/suggest.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -8,26 +9,31 @@ class KeyWordPage extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    return SafeArea(child: Center(child: Text('キーワードを入力してください')),);
-    // final asyncValue = ref.watch(suggestProvider);
-    // return asyncValue.when(
-    //   data: (suggestions) {
-    //     return ListView.builder(
-    //       itemCount: suggestions.length,
-    //       itemBuilder: (context, index) {
-    //         final suggestion = suggestions[index];
-    //         return ListTile(
-    //           title: Text(suggestion),
-    //           onTap: () {
-    //             ref.read(keywordProvider.notifier).state = suggestion;
-    //             Navigator.pop(context);
-    //           },
-    //         );
-    //       },
-    //     );
-    //   },
-    //   loading: () => const Center(child: CircularProgressIndicator()),
-    //   error: (error, stack) => Center(child: Text('Error: $error')),
-    //);
+    final historyAsync = ref.watch(historyProvider);
+
+    return historyAsync.when(
+      data: (data) =>
+        ListView.builder(
+          itemCount: data.length,
+          itemBuilder: (context, index) {
+            final keyword = data[index];
+            return ListTile(
+              title: Text(keyword),
+              onTap: () {
+                ref.read(keywordProvider.notifier).state = keyword;
+                ref.read(isEditingProvider.notifier).state = false;
+              },
+              trailing: IconButton(
+                icon: const Icon(Icons.delete),
+                onPressed: () {
+                  ref.read(historyProvider.notifier).removeKeyword(keyword);
+                },
+              ),
+            );
+          },
+        ),
+      error: (error, stack) => Center(child: Text('Error: $error')),
+      loading: () => const Center(child: CircularProgressIndicator()),
+    );
   }
 }
